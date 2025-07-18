@@ -5,7 +5,7 @@ const {
   getProblemById,
   updateProblem,
   deleteProblem
-} = require("../controllers/problemController");
+} = require("../Controller/problemController");
 
 const router = express.Router();
 

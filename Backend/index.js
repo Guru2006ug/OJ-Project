@@ -1,5 +1,6 @@
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const {DBConnection} = require("./database/db");
 const authRoutes = require("./routes/authRoutes");
@@ -8,8 +9,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 DBConnection();
 
+app.use(cors({ origin: 'http://localhost:5174', credentials: true }));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 
 app.get("/", (req, res) => {
