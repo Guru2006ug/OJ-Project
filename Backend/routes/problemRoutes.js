@@ -6,16 +6,17 @@ const {
   updateProblem,
   deleteProblem
 } = require("../Controller/problemController");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Public Routes
+// Public
 router.get("/", getAllProblems);
 router.get("/:id", getProblemById);
 
-// Admin-only (you can add middleware later)
-router.post("/", createProblem);
-router.patch("/:id", updateProblem);
-router.delete("/:id", deleteProblem);
+// Authenticated users only
+router.post("/", authMiddleware, createProblem);
+router.put("/:id", authMiddleware, updateProblem);
+router.delete("/:id", authMiddleware, deleteProblem);
 
 module.exports = router;
