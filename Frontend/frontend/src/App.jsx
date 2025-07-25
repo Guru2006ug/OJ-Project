@@ -1,22 +1,45 @@
 import HomePage from './components/HomePage'
 import Signup from './components/Signup'
 import Signin from './components/Signin'
+import Problem from './components/Problem'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute'
 import './App.css'
-
-const UserPage = () => (
-  <div className="min-h-screen flex items-center justify-center text-3xl font-bold">Welcome, User!</div>
-);
+import React from "react";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/user" element={<UserPage />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <Signup />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <Signin />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/problems"
+            element={
+              <ProtectedRoute>
+                <Problem />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </Router>
   )
 }

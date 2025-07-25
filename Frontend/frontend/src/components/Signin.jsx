@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
 
 const Signin = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -7,6 +9,7 @@ const Signin = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,18 +21,23 @@ const Signin = () => {
     setError('');
     setSuccess('');
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+      const response = await axios.post('/api/auth/login', form, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || data);
-      setSuccess('Login successful! Redirecting...');
-      localStorage.setItem('token', data.user.token);
-      setTimeout(() => navigate('/user'), 1500);
-    } catch (err) {
-      setError(err.message);
+      
+      console.log('Login response:', response.data); // For debugging
+      
+      const { token, message, user } = response.data;
+      
+      // Login successful - token will be in both cookie and response
+      login(token); // This will store in localStorage as backup
+      setSuccess(message || 'Login successful!');
+      navigate('/problems');
+    } catch (error) {
+      setError(error.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
     }
