@@ -73,20 +73,38 @@ exports.updateProblem = async (req, res) => {
 };
 
 // Delete a problem
+// Fixed Delete a problem controller
+// Replace your current deleteProblem controller with this debug version
+// Delete a problem - CORRECTED VERSION
 exports.deleteProblem = async (req, res) => {
   try {
+    console.log("Delete request by user:", req.user.id);
+    console.log("Attempting to delete problem ID:", req.params.id);
+    
     const problem = await Problem.findById(req.params.id);
-    if (!problem) return res.status(404).json({ message: "Problem not found." });
-
-    if (problem.user.toString() !== req.user.id) {
+    if (!problem) {
+      console.log("Problem not found");
+      return res.status(404).json({ message: "Problem not found." });
+    }
+    
+    console.log("Problem user:", problem.user.toString());
+    console.log("Request user:", req.user.id);
+    
+    if (problem.user.toString() !== req.user.id.toString()) {
+      console.log("Permission denied - user mismatch");
       return res.status(403).json({ message: "You can only delete your own problems." });
     }
-
-    await problem.remove();
+    
+    // FIXED: Use findByIdAndDelete instead of findByIdAndRemove
+    await Problem.findByIdAndDelete(req.params.id);
+    
+    console.log("Problem deleted successfully");
     res.status(200).json({ message: "Problem deleted successfully." });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to delete problem." });
+    console.error("Delete error:", error);
+    res.status(500).json({ 
+      message: "Failed to delete problem.", 
+      error: error.message
+    });
   }
 };
-
