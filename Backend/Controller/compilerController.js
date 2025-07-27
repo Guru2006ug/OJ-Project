@@ -5,7 +5,7 @@ const executePython = require("../Compiler/executePython");
 const { v4: uuid } = require("uuid");
 
 const compileCode = async (req, res) => {
-  const { language, code } = req.body;
+  const { language, code, input } = req.body;
 
   if (!language || !code) {
     return res.status(400).json({ error: "Language and code are required." });
@@ -18,17 +18,17 @@ const compileCode = async (req, res) => {
     switch (language) {
       case "cpp":
         filepath = generateFile(code, jobId, "cpp");
-        result = await executeCpp(filepath, jobId);
+        result = await executeCpp(filepath, jobId, input || "");
         break;
 
       case "java":
         filepath = generateFile(code, jobId, "java");
-        result = await executeJava(filepath);
+        result = await executeJava(filepath, jobId, input || "");
         break;
 
       case "python":
         filepath = generateFile(code, jobId, "py");
-        result = await executePython(filepath);
+        result = await executePython(filepath, input || "");
         break;
 
       default:
@@ -41,5 +41,6 @@ const compileCode = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
 
 module.exports = { compileCode };
