@@ -26,6 +26,9 @@ const Problem = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  // Backend API base URL - change this to match your backend server
+  const API_BASE_URL = 'http://localhost:5000';
+
   const token = localStorage.getItem("token");
 
   // Get the current user's ID from the JWT token
@@ -44,11 +47,11 @@ const Problem = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        navigate('/signin');
+        navigate('/HomePage');
         return;
       }
 
-      const res = await fetch("/api/problems", {
+      const res = await fetch(`${API_BASE_URL}/api/problems`, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -57,16 +60,21 @@ const Problem = () => {
       });
       
       if (res.status === 401) {
-        navigate('/signin');
+        navigate('/HomePage');
         return;
+      }
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
       
       const data = await res.json();
       setProblems(data);
     } catch (err) {
       console.error("Failed to fetch problems", err);
+      setError('Failed to fetch problems');
       if (err.response?.status === 401) {
-        navigate('/signin');
+        navigate('/HomePage');
       }
     }
   };
@@ -80,7 +88,7 @@ const Problem = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/signin');
+      navigate('/HomePage');
     } catch (error) {
       console.error('Logout failed:', error);
     }
@@ -91,12 +99,12 @@ const Problem = () => {
     setError('');
     setSuccess('');
     
-    const url = isEditing ? `/api/problems/${editingId}` : "/api/problems";
+    const url = isEditing ? `${API_BASE_URL}/api/problems/${editingId}` : `${API_BASE_URL}/api/problems`;
     const method = isEditing ? "PUT" : "POST";
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate('/signin');
+      navigate('/HomePage');
       return;
     }
 
@@ -124,7 +132,8 @@ const Problem = () => {
       }
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
       await fetchProblems();
@@ -143,7 +152,7 @@ const Problem = () => {
         difficulty: "easy",
         hiddenTestCases: [{ input: "", expectedOutput: "" }],
       });
-      setSuccess('Problem saved successfully!'); // Moved inside try block
+      setSuccess('Problem saved successfully!');
     } catch (err) {
       console.error("Failed to save problem", err);
       setError(err.message || 'Failed to save problem');
@@ -162,15 +171,56 @@ const Problem = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`/api/problems/${id}`, {
+      setError(''); // Clear any existing errors
+      
+      console.log('Attempting to delete problem with ID:', id);
+      console.log('Using token:', token);
+      
+      const response = await fetch(`${API_BASE_URL}/api/problems/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
+        credentials: 'include'
       });
-      fetchProblems();
+
+      console.log('Delete response status:', response.status);
+
+      if (response.status === 401) {
+        navigate('/signin');
+        return;
+      }
+
+      if (response.status === 403) {
+        throw new Error('You can only delete your own problems');
+      }
+
+      if (!response.ok) {
+        // Try to get detailed error message from backend
+        const errorText = await response.text();
+        console.log('Error response body:', errorText);
+        
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = { message: errorText };
+        }
+        
+        throw new Error(errorData.message || errorData.error || `Failed to delete problem. Status: ${response.status}`);
+      }
+
+      // Success - refresh the problems list
+      await fetchProblems();
+      setSuccess('Problem deleted successfully!');
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(''), 3000);
+      
     } catch (err) {
-      console.error("Failed to delete", err);
+      console.error("Failed to delete - Full error:", err);
+      setError(err.message || 'Failed to delete problem');
     }
   };
 
