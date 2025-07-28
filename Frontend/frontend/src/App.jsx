@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext'
 import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute'
 import './App.css'
 import React from "react";
+import Compiler from './components/Compiler'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/solve/:id" element={<Compiler />} />
         </Routes>
       </AuthProvider>
     </Router>

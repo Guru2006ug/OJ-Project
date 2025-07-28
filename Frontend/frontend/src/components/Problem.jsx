@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 const Problem = () => {
   const navigate = useNavigate();
@@ -302,6 +304,11 @@ const Problem = () => {
                 ) : (
                   <span className="text-sm text-gray-500">Created by another user</span>
                 )}
+                <Link to={`/solve/${problem._id}`}>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded">
+                          Solve
+                        </button>
+                 </Link>
               </div>
             </div>
           );
