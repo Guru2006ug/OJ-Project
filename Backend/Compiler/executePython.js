@@ -9,12 +9,23 @@ const executePython = (filepath, input) => {
 
   return new Promise((resolve, reject) => {
     const command = `python "${filepath}" < "${inputPath}"`;
+
     exec(command, (error, stdout, stderr) => {
-      if (error) return reject({ error: stderr || error.message });
-      resolve({ output: stdout });
+      try {
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+      } catch (cleanupErr) {
+        console.log("Cleanup error (Python):", cleanupErr.message);
+      }
+
+      if (error) {
+        return reject({
+          error: stderr || error.message || "Syntax/runtime error in Python code",
+        });
+      }
+
+      return resolve({ output: stdout });
     });
   });
 };
-
 
 module.exports = executePython;

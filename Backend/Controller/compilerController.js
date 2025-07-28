@@ -5,10 +5,10 @@ const executePython = require("../Compiler/executePython");
 const { v4: uuid } = require("uuid");
 
 const compileCode = async (req, res) => {
-  const { language, code, input } = req.body;
+  const { language, code, input, expectedOutput } = req.body;
 
   if (!language || !code) {
-    return res.status(400).json({ error: "Language and code are required." });
+    return res.status(400).json({ message: "Language and code are required." });
   }
 
   const jobId = uuid();
@@ -26,21 +26,29 @@ const compileCode = async (req, res) => {
         result = await executeJava(filepath, jobId, input || "");
         break;
 
-      case "python":
+      case "py":
         filepath = generateFile(code, jobId, "py");
         result = await executePython(filepath, input || "");
         break;
 
       default:
-        return res.status(400).json({ error: "Unsupported language." });
+        return res.status(400).json({ message: "Unsupported language." });
     }
 
-    res.status(200).json(result);
+    let correct = undefined;
+    if (expectedOutput !== undefined) {
+      // Clean whitespace for comparison
+      const normalize = (str) => str.trim().replace(/\r/g, "");
+      correct = normalize(result.output) === normalize(expectedOutput);
+    }
+
+    return res.status(200).json({ output: result.output, correct });
   } catch (err) {
     console.error("Compilation Error:", err);
-    res.status(500).json(err);
+    return res.status(500).json({ message: "Execution error", error: err });
   }
 };
+
 
 
 module.exports = { compileCode };

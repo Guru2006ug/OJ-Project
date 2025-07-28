@@ -11,13 +11,25 @@ const executeCpp = (filePath, outputName, input) => {
   fs.writeFileSync(inputPath, input);
 
   return new Promise((resolve, reject) => {
-    const command = `g++ ${filePath} -o ${outputPath} && ${outputPath} < ${inputPath}`;
+    const command = `g++ "${filePath}" -o "${outputPath}" && "${outputPath}" < "${inputPath}"`;
+
     exec(command, (error, stdout, stderr) => {
-      if (error) return reject({ error: stderr || error.message });
+      try {
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+      } catch (cleanupErr) {
+        console.log("Cleanup error (CPP):", cleanupErr.message);
+      }
+
+      if (error) {
+        return reject({
+          error: stderr || error.message || "Compilation error in C++ code",
+        });
+      }
+
       return resolve({ output: stdout });
     });
   });
 };
-
 
 module.exports = executeCpp;
