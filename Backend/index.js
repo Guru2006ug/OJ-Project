@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const problemRoutes = require("./routes/problemRoutes");
 const dotenv = require('dotenv');
 const compilerRoutes = require("./routes/compilerRoutes");
+const submissionRoute = require("./routes/submissionRoutes");
 dotenv.config();
 DBConnection();
 
@@ -29,6 +30,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/problems", problemRoutes);
 
 app.use("/api/compiler", compilerRoutes);
+
+app.use("/api/submissions", submissionRoute);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}...`);
