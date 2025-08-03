@@ -3,17 +3,20 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine().toLowerCase(); // Read input and convert to lowercase
+        String s = sc.nextLine();
 
-        String vowels = "aeiou";
-        int count = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (vowels.indexOf(s.charAt(i)) != -1) {
-                count++;
+        int vowelCount = 0;
+        for (char c : s.toCharArray()) {
+            if (isVowel(c)) {
+                vowelCount++;
             }
         }
 
-        System.out.println(count);
+        System.out.println(vowelCount);
+    }
+
+    public static boolean isVowel(char c) {
+        c = Character.toLowerCase(c);
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 }
