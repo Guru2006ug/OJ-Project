@@ -8,6 +8,7 @@ import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute'
 import './App.css'
 import React from "react";
 import Compiler from './components/Compiler'
+import MySubmissions from './components/MySubmission'
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             }
           />
           <Route path="/solve/:id" element={<Compiler />} />
+          <Route path="/my-submissions/:problemId" element={<MySubmissions />} />
         </Routes>
       </AuthProvider>
     </Router>
