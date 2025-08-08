@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { Link } from 'react-router-dom';
+import DarkModeToggle from './DarkModeToggle';
 
 
-const API_BASE_URL = 'http://localhost:5000';
+
 // Inside component:
 
 
@@ -63,25 +64,9 @@ const Problem = () => {
         return;
       }
 
-      const res = await fetch(`${API_BASE_URL}/api/problems`, {
-        headers: { 
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-      });
+      const res = await api.get(`/api/problems`);
       
-      if (res.status === 401) {
-        navigate('/');
-        return;
-      }
-      
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      
-      const data = await res.json();
-      setProblems(data);
+      setProblems(res.data);
     } catch (err) {
       console.error("Failed to fetch problems", err);
       setError('Failed to fetch problems');
@@ -112,7 +97,7 @@ const Problem = () => {
     setError('');
     setSuccess('');
     
-    const url = isEditing ? `${API_BASE_URL}/api/problems/${editingId}` : `${API_BASE_URL}/api/problems`;
+    const url = isEditing ? `/api/problems/${editingId}` : `/api/problems`;
     const method = isEditing ? "PUT" : "POST";
     const token = localStorage.getItem("token");
 
@@ -130,22 +115,23 @@ const Problem = () => {
     } = formData;
 
     try {
-      const response = await fetch(url, {
+      const response = await api({
+        url,
         method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(cleanData),
-        credentials: 'include'
+        data: cleanData,
+        withCredentials: true
       });
 
       if (response.status === 403) {
         throw new Error('You can only update your own problems');
       }
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
+      if (response.status !== 200 && response.status !== 201) {
+        const errorData = response.data || {};
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
@@ -190,13 +176,12 @@ const Problem = () => {
       console.log('Attempting to delete problem with ID:', id);
       console.log('Using token:', token);
       
-      const response = await fetch(`${API_BASE_URL}/api/problems/${id}`, {
-        method: "DELETE",
+      const response = await api.delete(`/api/problems/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        credentials: 'include'
+        withCredentials: true
       });
 
       console.log('Delete response status:', response.status);
@@ -210,9 +195,9 @@ const Problem = () => {
         throw new Error('You can only delete your own problems');
       }
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         // Try to get detailed error message from backend
-        const errorText = await response.text();
+        const errorText = response.data;
         console.log('Error response body:', errorText);
         
         let errorData;
@@ -271,6 +256,7 @@ const Problem = () => {
                 </svg>
                 Logout
               </button>
+              <DarkModeToggle />
             </div>
           </div>
 

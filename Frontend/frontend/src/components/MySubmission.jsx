@@ -2,10 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import moment from "moment";
-
-const API_BASE_URL = 'http://localhost:5000';
+import DarkModeToggle from './DarkModeToggle';
 
 const MySubmissions = () => {
   const { problemId } = useParams();
@@ -20,7 +19,7 @@ const MySubmissions = () => {
     const fetchSubmissions = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`${API_BASE_URL}/api/submissions/${problemId}`, {
+        const res = await api.get(`/api/submissions/${problemId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSubmissions(res.data);
@@ -28,7 +27,7 @@ const MySubmissions = () => {
         // Fetch problem title if submissions exist
         if (res.data.length > 0) {
           try {
-            const problemRes = await axios.get(`${API_BASE_URL}/api/problems/${problemId}`, {
+            const problemRes = await api.get(`/api/problems/${problemId}`, {
               headers: { Authorization: `Bearer ${token}` },
             });
             setProblemTitle(problemRes.data.title);
@@ -100,27 +99,30 @@ const MySubmissions = () => {
               <p className="text-white/70">Track your coding progress and submission history</p>
             </div>
             
-            {/* Stats */}
-            {submissions.length > 0 && (
-              <div className="flex gap-4 animate-slide-up" style={{animationDelay: '0.1s'}}>
-                <div className="glass-dark p-4 rounded-xl text-center">
-                  <div className="text-2xl font-bold text-white">{submissions.length}</div>
-                  <div className="text-white/70 text-sm">Total</div>
-                </div>
-                <div className="glass-dark p-4 rounded-xl text-center">
-                  <div className="text-2xl font-bold text-green-400">
-                    {submissions.filter(s => s.isPassed).length}
+            <div className="flex items-center gap-4">
+              <DarkModeToggle />
+              {/* Stats */}
+              {submissions.length > 0 && (
+                <div className="flex gap-4 animate-slide-up" style={{animationDelay: '0.1s'}}>
+                  <div className="glass-dark p-4 rounded-xl text-center">
+                    <div className="text-2xl font-bold text-white">{submissions.length}</div>
+                    <div className="text-white/70 text-sm">Total</div>
                   </div>
-                  <div className="text-white/70 text-sm">Passed</div>
-                </div>
-                <div className="glass-dark p-4 rounded-xl text-center">
-                  <div className="text-2xl font-bold text-red-400">
-                    {submissions.filter(s => !s.isPassed).length}
+                  <div className="glass-dark p-4 rounded-xl text-center">
+                    <div className="text-2xl font-bold text-green-400">
+                      {submissions.filter(s => s.isPassed).length}
+                    </div>
+                    <div className="text-white/70 text-sm">Passed</div>
                   </div>
-                  <div className="text-white/70 text-sm">Failed</div>
+                  <div className="glass-dark p-4 rounded-xl text-center">
+                    <div className="text-2xl font-bold text-red-400">
+                      {submissions.filter(s => !s.isPassed).length}
+                    </div>
+                    <div className="text-white/70 text-sm">Failed</div>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Error Message */}

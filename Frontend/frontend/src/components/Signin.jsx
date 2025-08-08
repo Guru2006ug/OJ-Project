@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../api';
 
 const Signin = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -21,12 +21,7 @@ const Signin = () => {
     setError('');
     setSuccess('');
     try {
-      const response = await axios.post('/api/auth/login', form, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await api.post('/api/auth/login', form);
       
       console.log('Login response:', response.data); // For debugging
       

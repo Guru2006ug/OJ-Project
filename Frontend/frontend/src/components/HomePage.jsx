@@ -142,7 +142,7 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 relative">
           <div className="text-center animate-fade-in">
             <h1 className="text-responsive-xl tracking-tight font-extrabold">
-              <span className="block gradient-text animate-slide-up">Solve Coding Challenges.</span>
+              <span className="block text-violet-300 animate-slide-up">Solve Coding Challenges.</span>
               <span className="block text-white/90 mt-4 animate-slide-up" style={{animationDelay: '0.2s'}}>Sharpen Your Skills.</span>
             </h1>
             <p className="mt-8 max-w-2xl mx-auto text-responsive text-white/80 animate-slide-up" style={{animationDelay: '0.4s'}}>
@@ -172,25 +172,25 @@ const HomePage = () => {
       <div className="bg-white dark:bg-dark py-24 transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center animate-fade-in">
-            <h2 className="text-4xl font-extrabold gradient-text mb-4">Key Features</h2>
+            <h2 className="text-4xl font-extrabold gradient-text mb-4 pb-2">Key Features</h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Experience the power of modern coding practice with our advanced platform
             </p>
           </div>
-          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 flex flex-wrap justify-center gap-8">
             {/* Multiple Languages */}
-            <div className="card-modern p-8 hover-lift group cursor-pointer animate-slide-up">
+            <div className="card-modern p-8 hover-lift group cursor-pointer animate-slide-up max-w-sm">
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary text-white text-2xl mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-glow">
                   🌐
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-primary transition-colors duration-300">Multiple Languages</h3>
-                <p className="text-gray-600 dark:text-gray-300 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300 text-lg leading-relaxed">Code in your preferred language. We support Python, Java, C++, JavaScript, and many more!</p>
+                <p className="text-gray-600 dark:text-gray-300 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300 text-lg leading-relaxed">Code in your preferred language. We support Python, Java, C++</p>
               </div>
             </div>
             
             {/* Live Code Execution */}
-            <div className="card-modern p-8 hover-lift group cursor-pointer animate-slide-up" style={{animationDelay: '0.1s'}}>
+            <div className="card-modern p-8 hover-lift group cursor-pointer animate-slide-up max-w-sm" style={{animationDelay: '0.1s'}}>
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r from-secondary to-tertiary text-white text-2xl mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-glow">
                   ⚡
@@ -200,73 +200,6 @@ const HomePage = () => {
               </div>
             </div>
             
-            {/* Leaderboard */}
-            <div className="card-modern p-8 hover-lift group cursor-pointer animate-slide-up" style={{animationDelay: '0.2s'}}>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r from-tertiary to-accent text-white text-2xl mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-glow">
-                  🏆
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-tertiary transition-colors duration-300">Global Leaderboard</h3>
-                <p className="text-gray-600 dark:text-gray-300 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300 text-lg leading-relaxed">Compete with developers worldwide and track your progress on our dynamic global leaderboard system.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Community Section */}
-      <div className="bg-gradient-to-b from-white via-indigo-50/30 to-white dark:from-dark dark:via-dark-light/50 dark:to-dark py-32 transition-colors duration-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center animate-fade-in">
-            <h2 className="text-5xl font-extrabold gradient-text mb-6">Join Our Community</h2>
-            <p className="mt-6 text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Connect with fellow programmers, share solutions, and grow together in our thriving developer community.
-            </p>
-          </div>
-          
-          <div className="mt-20 relative animate-slide-up">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-3xl transform rotate-3 scale-95"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-secondary/15 to-tertiary/15 rounded-3xl transform -rotate-2 scale-98"></div>
-            <div className="relative form-modern border-2 border-gradient">
-              <svg className="absolute -top-8 left-8 w-16 h-16 text-primary transform -rotate-12" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
-                <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-              </svg>
-              <div className="relative p-10">
-                <blockquote className="text-2xl font-medium leading-9 text-gray-700 dark:text-gray-200 italic mb-8">
-                  "This platform has transformed my problem-solving approach. The community support is incredible, and the challenging problems have significantly improved my coding skills. It's like having a coding bootcamp available 24/7!"
-                </blockquote>
-                <div className="flex items-center">
-                  <div className="relative">
-                    <div className="inline-flex rounded-full ring-4 ring-primary/30 dark:ring-secondary/30 pulse-glow">
-                      <div className="h-16 w-16 rounded-full bg-button-gradient flex items-center justify-center text-white text-2xl font-bold shadow-glow">
-                        SC
-                      </div>
-                    </div>
-                  </div>
-                  <div className="ml-6">
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">Sarah Chen</p>
-                    <p className="text-lg text-primary dark:text-secondary font-medium">Senior Software Engineer</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Google Inc.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Statistics */}
-          <div className="mt-20 grid grid-cols-1 gap-8 sm:grid-cols-3 animate-fade-in">
-            <div className="text-center group">
-              <div className="text-4xl font-bold gradient-text group-hover:scale-110 transition-transform duration-300">10,000+</div>
-              <div className="text-lg text-gray-600 dark:text-gray-300 mt-2">Active Developers</div>
-            </div>
-            <div className="text-center group">
-              <div className="text-4xl font-bold gradient-text group-hover:scale-110 transition-transform duration-300">500+</div>
-              <div className="text-lg text-gray-600 dark:text-gray-300 mt-2">Coding Problems</div>
-            </div>
-            <div className="text-center group">
-              <div className="text-4xl font-bold gradient-text group-hover:scale-110 transition-transform duration-300">1M+</div>
-              <div className="text-lg text-gray-600 dark:text-gray-300 mt-2">Solutions Submitted</div>
-            </div>
           </div>
         </div>
       </div>
@@ -309,21 +242,17 @@ const HomePage = () => {
             <div>
               <h3 className="text-white font-bold text-lg mb-6 gradient-text">Quick Links</h3>
               <ul className="space-y-3">
-                <li><a href="#about" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">About Us</a></li>
-                <li><a href="#problems" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Browse Problems</a></li>
-                <li><a href="#leaderboard" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Leaderboard</a></li>
-                <li><a href="#tutorials" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Tutorials</a></li>
-                <li><a href="#blog" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Blog</a></li>
+                <li><Link to="/about" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">About Us</Link></li>
+                <li><Link to="/problems" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Browse Problems</Link></li>
               </ul>
             </div>
             
             <div>
               <h3 className="text-white font-bold text-lg mb-6 gradient-text">Legal & Support</h3>
               <ul className="space-y-3">
-                <li><a href="#privacy" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Privacy Policy</a></li>
-                <li><a href="#terms" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Terms of Service</a></li>
-                <li><a href="#contact" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Contact Us</a></li>
-                <li><a href="#help" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Help Center</a></li>
+                <li><Link to="/privacy" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Terms of Service</Link></li>
+                <li><Link to="/contact" className="text-gray-300 hover:text-primary transition-colors duration-300 hover-lift inline-block">Contact Us</Link></li>
               </ul>
             </div>
           </div>

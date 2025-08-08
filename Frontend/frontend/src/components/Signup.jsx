@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../api';
 
 const Signup = () => {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '' });
@@ -18,17 +19,13 @@ const Signup = () => {
     setError('');
     setSuccess('');
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || data);
+      const res = await api.post('/api/auth/register', form);
+      const data = res.data;
+      if (res.status !== 200) throw new Error(data.message || 'Something went wrong');
       setSuccess('Registration successful! Please sign in.');
       setTimeout(() => navigate('/signin'), 1500);
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }

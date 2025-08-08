@@ -8,7 +8,11 @@ import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute'
 import './App.css'
 import React from "react";
 import Compiler from './components/Compiler'
-import MySubmissions from './components/MySubmission'
+import MySubmissions from './components/MySubmission';
+import AboutUs from './components/AboutUs';
+import ContactUs from './components/ContactUs';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 
 function App() {
   return (
@@ -16,6 +20,10 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route
             path="/signup"
             element={
