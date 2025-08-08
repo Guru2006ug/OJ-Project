@@ -233,7 +233,7 @@ const Problem = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-6">
             <div className="animate-slide-up">
               <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-2 drop-shadow-lg">
-                Problem Dashboard
+                Problems To Solve
               </h1>
               <p className="text-white/80 text-lg">Explore coding challenges and test your skills</p>
             </div>

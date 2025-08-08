@@ -205,7 +205,7 @@ const Compiler = () => {
                 </button>
                 <div>
                   <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-2 drop-shadow-lg">
-                    Code Editor
+                    Code Arena
                   </h1>
                   {problem && (
                     <p className="text-white/80 text-lg">Solve "{problem.title}"</p>
