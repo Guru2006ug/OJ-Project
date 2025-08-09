@@ -15,9 +15,7 @@ DBConnection();
 
 app.use(cors({
   origin: [
-    'http://localhost:5173',
-    'https://www.code-guru.online',
-    'https://code-guru.online'
+    'https://www.code-guru.online'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
