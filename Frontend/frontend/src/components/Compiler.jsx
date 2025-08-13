@@ -20,6 +20,49 @@ const Compiler = () => {
   const [aiReview, setAiReview] = useState("");
   const [showAiReview, setShowAiReview] = useState(false);
 
+  // Boilerplate code templates
+  const boilerplateCode = {
+    cpp: `#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    // Your code here
+    
+    return 0;
+}`,
+    java: `import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // Your code here
+        
+        sc.close();
+    }
+}`,
+    py: `# Import necessary libraries
+import sys
+from collections import defaultdict, deque
+from heapq import heappush, heappop
+
+def main():
+    # Your code here
+    pass
+
+if __name__ == "__main__":
+    main()`
+  };
+
+  // Function to reset to boilerplate
+  const resetToBoilerplate = () => {
+    setCode(boilerplateCode[language] || "");
+  };
+
   useEffect(() => {
     const fetchProblem = async () => {
       try {
@@ -32,6 +75,13 @@ const Compiler = () => {
 
     fetchProblem();
   }, [id]);
+
+  // Set boilerplate code when language changes (only if code is empty)
+  useEffect(() => {
+    if (!code || code.trim() === "") {
+      setCode(boilerplateCode[language] || "");
+    }
+  }, [language]);
 
   const runAllTestsAndReturnResults = async () => {
     let finalOutput = "";
@@ -300,13 +350,25 @@ const Compiler = () => {
 
                 {/* Code Editor - Maximum space allocated */}
                 <div className="card-modern p-4 text-gray-800 dark:text-white animate-slide-up hover-lift" style={{animationDelay: '0.2s'}}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-1.5 bg-green-500/20 rounded-lg">
-                      <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="p-1.5 bg-green-500/20 rounded-lg">
+                        <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <label className="text-base font-semibold text-gray-700 dark:text-gray-300">Your Code</label>
                     </div>
-                    <label className="text-base font-semibold text-gray-700 dark:text-gray-300">Your Code</label>
+                    <button
+                      onClick={resetToBoilerplate}
+                      className="px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 hover:text-blue-300 rounded-lg border border-blue-500/30 text-sm font-medium transition-all duration-200 flex items-center gap-2"
+                      title="Reset to boilerplate code"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      Reset to Boilerplate
+                    </button>
                   </div>
                   <div className="bg-gray-900 rounded-xl p-4 border border-gray-700">
                     <Editor
