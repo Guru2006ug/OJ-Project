@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![CodeGuru Logo](Frontend/frontend/public/codeguru.svg)
-
 **A modern, full-stack online judge platform for competitive programming and coding practice**
 
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
