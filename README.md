@@ -11,7 +11,7 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen.svg)](https://mongodb.com/)
 [![License](https://img.shields.io/badge/License-ISC-yellow.svg)](LICENSE)
 
-[🌐 Live Demo](https://www.code-guru.online) • [📚 Documentation](#documentation) • [🚀 Quick Start](#quick-start)
+[🌐 Live Demo](https://www.code-guru.online)
 
 </div>
 
@@ -77,6 +77,52 @@ Backend/
 └── index.js              # Server entry point
 ```
 
+## ⚙️ Custom Compiler Engine
+
+### 🏗️ **Built from Scratch**
+Our Online Judge features a **custom-designed compiler engine** built entirely from the ground up, without relying on any external sandbox libraries or third-party compilation services.
+
+### 🔧 **Core Design Principles**
+- **Native Implementation**: Direct system calls to language compilers (g++, javac, python3)
+- **File-based Execution**: Secure temporary file handling with UUID-based naming
+- **Process Management**: Custom subprocess execution with timeout controls
+- **Memory Management**: Automatic cleanup of temporary files and processes
+- **Error Handling**: Comprehensive error capture and user-friendly messaging
+
+### 🛡️ **Security Architecture**
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   User Code     │────│  File Generator  │────│ Temp Directory │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                │
+                                ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│ Compiler Engine │────│  Process Spawn   │────│   Execution     │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                │
+                                ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Output Cap.   │────│  Error Handling  │────│    Cleanup      │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+```
+
+### 💡 **Key Features**
+- **No Sandbox Dependencies**: Built without Docker sandboxes or external isolation tools
+- **Direct Compilation**: Interfaces directly with system compilers
+- **Resource Control**: Built-in timeout and memory management
+- **Multi-language Support**: Unified interface for C++, Java, and Python
+- **Real-time Feedback**: Immediate compilation and execution results
+
+### 🎯 **Execution Flow**
+1. **Code Reception**: User code received via API endpoint
+2. **File Generation**: Unique temporary file created with UUID naming
+3. **Compilation**: Direct system call to appropriate compiler
+4. **Execution**: Process spawning with input/output redirection
+5. **Result Capture**: Output collection and error handling
+6. **Cleanup**: Automatic removal of temporary files and processes
+
+This custom approach provides **maximum control**, **optimal performance**, and **simplified deployment** without the overhead of complex sandboxing solutions.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -105,7 +151,11 @@ PORT=5000
 
 ```bash
 # Frontend/frontend/.env
+# For local development:
 VITE_API_BASE_URL=http://localhost:5000
+
+# For production:
+# VITE_API_BASE_URL=https://backend.code-guru.online
 ```
 
 3. **Run with Docker**
@@ -287,31 +337,6 @@ docker run -p 5000:5000 online-judge-backend
 - **Rate Limiting**: Protection against abuse (recommended to add)
 - **Environment Variables**: Sensitive data protection
 
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. **Fork the Repository**
-2. **Create Feature Branch**
-```bash
-git checkout -b feature/amazing-feature
-```
-3. **Commit Changes**
-```bash
-git commit -m 'Add amazing feature'
-```
-4. **Push to Branch**
-```bash
-git push origin feature/amazing-feature
-```
-5. **Open Pull Request**
-
-### Development Guidelines
-- Follow existing code style and conventions
-- Add tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting
-
 ## 🐛 Troubleshooting
 
 ### Common Issues
@@ -352,12 +377,6 @@ git push origin feature/amazing-feature
 - [ ] **Administrative Dashboard**: Enhanced problem management
 - [ ] **API Rate Limiting**: Enhanced security measures
 
-## 👥 Team
-
-- **Project Lead**: [Your Name]
-- **Backend Developer**: [Your Name]
-- **Frontend Developer**: [Your Name]
-- **DevOps Engineer**: [Your Name]
 
 ## 📄 License
 
@@ -374,17 +393,16 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support, please reach out through:
-- **Email**: support@code-guru.online
-- **GitHub Issues**: [Create an issue](https://github.com/Guru2006ug/OJ-Project/issues)
-- **Documentation**: [Visit our docs](#documentation)
+- **Email**: 2300030442cseird@gmail.com
+
+
 
 ---
 
 <div align="center">
-  <p>Made with ❤️ by the CodeGuru Team</p>
+  <p>Made with ❤️ to all the learners</p>
   <p>
     <a href="https://www.code-guru.online">🌐 Website</a> •
     <a href="https://github.com/Guru2006ug/OJ-Project">📂 Repository</a> •
-    <a href="#contact">📧 Contact</a>
   </p>
 </div>
